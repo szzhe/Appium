@@ -29,4 +29,4 @@ sleep(8)
 context = driver.contexts
 print(context) # ['NATIVE_APP']
 
-driver.switch_to_default_content(context[1])
+# driver.switch_to_default_content(context[1])

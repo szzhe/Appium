@@ -1,8 +1,9 @@
-
 import os
 
 from time import sleep
 from appium import webdriver
+
+from aibizhi import swipe
 
 apk_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))  # 获取当前项目的根路径
 
@@ -24,9 +25,24 @@ desired_caps['appActivity'] = 'com.adesk.picasso.view.MainActivity'
 
 driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)  # 启动app
 
-sleep(8)
+driver.wait_activity("com.adesk.picasso.view.HomeActivity", 30)
+# current_activity = driver.current_activity
+# print(current_activity)
 
-contexts = driver.contexts
-# print(context) # ['NATIVE_APP']
+# contexts = driver.contexts
+# print(contexts) # ['NATIVE_APP']
 
-driver.switch_to.context(contexts[1])
+category = driver.find_elements_by_id("com.lovebizhi.wallpaper:id/thumb")[3].click()
+sleep(2)
+
+categorys = driver.find_elements_by_id("com.lovebizhi.wallpaper:id/thumb")[8].click()
+sleep(2)
+
+driver.find_element_by_id("com.lovebizhi.wallpaper:id/bp_head_detail_img_loading").click()
+
+swipe.swipLeft(driver, 3)
+sleep(2)
+swipe.swipRight(driver, 3)
+sleep(2)
+
+driver.quit()

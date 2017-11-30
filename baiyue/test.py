@@ -49,6 +49,7 @@ et[1].clear()
 et[1].send_keys("szzhe5067")
 driver.find_element_by_class_name("android.widget.Button").click()
 
+
 try:
     assert "szz1298" in driver.page_source
 except AssertionError as err:

@@ -1,5 +1,5 @@
 
-from appium import webdriver
+from time import sleep
 
 def swipeUp(driver, t=500, n=1):
     size = driver.get_window_size()
@@ -8,6 +8,7 @@ def swipeUp(driver, t=500, n=1):
     y2 = size['height'] * 0.25  # 终点y坐标
     for i in range(n):
         driver.swipe(x1, y1, x1, y2, t)
+        sleep(1)
 
 def swipeDown(driver, t=500, n=1):
     size = driver.get_window_size()
@@ -16,6 +17,7 @@ def swipeDown(driver, t=500, n=1):
     y2 = size['height'] * 0.75  # 终点y坐标
     for i in range(n):
         driver.swipe(x1, y1, x1, y2, t)
+        sleep(1)
 
 def swipLeft(driver, t=500, n=1):
     size = driver.get_window_size()  # {'width': 720, 'height': 1280}
@@ -24,6 +26,7 @@ def swipLeft(driver, t=500, n=1):
     x2 = size['width'] * 0.05
     for i in range(n):
         driver.swipe(x1, y1, x2, y1, t)
+        sleep(1)
 
 def swipRight(driver, t=500, n=1):
     size = driver.get_window_size()
@@ -32,3 +35,4 @@ def swipRight(driver, t=500, n=1):
     x2 = size['width'] * 0.75
     for i in range(n):
         driver.swipe(x1, y1, x2, y1, t)
+        sleep(1)

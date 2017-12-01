@@ -32,7 +32,8 @@ driver.wait_activity("com.adesk.picasso.view.HomeActivity", 30)
 # contexts = driver.contexts
 # print(contexts) # ['NATIVE_APP']
 
-category = driver.find_elements_by_id("com.lovebizhi.wallpaper:id/thumb")[3].click()
+# print(len(driver.find_elements_by_id("com.lovebizhi.wallpaper:id/thumb")))
+category = driver.find_elements_by_id("com.lovebizhi.wallpaper:id/thumb")[1].click()
 sleep(2)
 
 categorys = driver.find_elements_by_id("com.lovebizhi.wallpaper:id/thumb")[8].click()
@@ -40,9 +41,7 @@ sleep(2)
 
 driver.find_element_by_id("com.lovebizhi.wallpaper:id/bp_head_detail_img_loading").click()
 
-swipe.swipLeft(driver, 3)
-sleep(2)
-swipe.swipRight(driver, 3)
-sleep(2)
+swipe.swipRight(driver, n=3)
+swipe.swipLeft(driver, n=3)
 
 driver.quit()

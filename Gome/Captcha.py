@@ -19,6 +19,7 @@ def identifyingCode(driver, startx, starty, endx, endy):
     sturdy.save(os.getcwd() + '\\Image\\CThird_Enhance.png')
 
     pic_path = os.path.dirname(os.path.abspath('CThird_Enhance.png'))
+    print(pic_path)
     return pic_path
 
 # 进阶，灰度处理-去噪点

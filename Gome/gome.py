@@ -2,8 +2,8 @@ import os
 from appium import webdriver
 from time import sleep
 
-from Gome import swipe, Captcha, Vecode
-from PIL import Image,ImageEnhance
+from Gome import swipe, Captcha
+from PIL import Image, ImageEnhance
 
 apk_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))  # 获取当前项目的根路径
 # print(apk_path)
@@ -27,13 +27,15 @@ desired_caps['appActivity'] = 'com.gome.ecmall.home.LaunchActivity'
 driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)  # 启动app
 
 # 引导组图
-sleep(8)
+driver.wait_activity("com.gome.ecmall.home.LaunchActivity",30)
+driver.wait_activity("com.gome.ecmall.home.UseCourseActivity",30)
+sleep(1)
 
 for i in range(4):
     swipe.swipLeft(driver)
     sleep(2)
 
-driver.wait_activity("com.gome.ecmall.homepage.activity.GomePlusHomeActivity", 30)
+driver.wait_activity("com.gome.ecmall.homepage.activity.GomePlusHomeActivity",30)
 
 # 关闭主页弹窗
 # driver.find_element_by_id("com.gome.eshopnew:id/btn_main_adv_close").click()
@@ -60,19 +62,31 @@ driver.find_element_by_id("com.gome.eshopnew:id/bangclepay_keyboard_letter_butto
 driver.find_element_by_id("com.gome.eshopnew:id/login_button").click()
 sleep(2)
 
-pic_path = Captcha.identifyingCode(driver, 525, 391, 645, 439)  # F:\PycharmProjects\Appium\Gome675
-pic = pic_path + '\\' + os.listdir(pic_path)[2]
-# print("pic:",pic) # F:\PycharmProjects\Appium\Gome\Image
-pic_open = Image.open(pic)
-print("pic_open:",pic_open)
-enhancer = ImageEnhance.Contrast(pic_open)
-pic_open = im = enhancer.enhance(2)
-vcode = Captcha.convert(pic_path, pic_open)
-print("vcode is :", vcode)
+'''家里，需要获图形验证码'''
+# pic_path = Captcha.identifyingCode(driver, 525, 391, 645, 439)  # F:\PycharmProjects\Appium\Gome x2=675
+# pic = pic_path + '\\' + os.listdir(pic_path)[2]
+# # print("pic:",pic) # F:\PycharmProjects\Appium\Gome\Image
+# pic_open = Image.open(pic)
+# print("pic_open:",pic_open)
+# enhancer = ImageEnhance.Contrast(pic_open)
+# pic_open = im = enhancer.enhance(2)
+# vcode = Captcha.convert(pic_path, pic_open)
+# print("vcode is :", vcode)
 
 # image = Image.open(os.getcwd() + '\\indent_enhance.png').convert("L")
 # Vecode.twoValue(image, 140)
 # Vecode.clearNoise(image, 4, 4)
 # Vecode.saveImage("F:/PycharmProjects/Appium/Gome/5.jpg", image.size)
+
+try:
+    assert "szz1298" in driver.page_source
+except AssertionError as err:
+    print('Exception: ', err)
+else:
+    print("no errors")
+
+# 进入我的 - 商城
+driver.find_elements_by_class_name("android.support.v7.app.ActionBar$Tab")[1].click()
+print(driver.contexts)
 
 driver.quit()

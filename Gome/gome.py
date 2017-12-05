@@ -2,7 +2,7 @@ import os
 from appium import webdriver
 from time import sleep
 
-from Gome import swipe, Captcha
+from Gome import swipe, GraphicCode
 from PIL import Image, ImageEnhance
 
 apk_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))  # 获取当前项目的根路径
@@ -38,8 +38,8 @@ for i in range(4):
 driver.wait_activity("com.gome.ecmall.homepage.activity.GomePlusHomeActivity",30)
 
 # 关闭主页弹窗
-# driver.find_element_by_id("com.gome.eshopnew:id/btn_main_adv_close").click()
-# sleep(2)
+driver.find_element_by_id("com.gome.eshopnew:id/btn_main_adv_close").click()
+sleep(2)
 
 # 进入我的 - 登录账号
 driver.find_elements_by_class_name("android.support.v7.app.ActionBar$Tab")[4].click()
@@ -63,15 +63,12 @@ driver.find_element_by_id("com.gome.eshopnew:id/login_button").click()
 sleep(2)
 
 '''家里，需要获图形验证码'''
-# pic_path = Captcha.identifyingCode(driver, 525, 391, 645, 439)  # F:\PycharmProjects\Appium\Gome x2=675
-# pic = pic_path + '\\' + os.listdir(pic_path)[2]
-# # print("pic:",pic) # F:\PycharmProjects\Appium\Gome\Image
-# pic_open = Image.open(pic)
-# print("pic_open:",pic_open)
-# enhancer = ImageEnhance.Contrast(pic_open)
-# pic_open = im = enhancer.enhance(2)
-# vcode = Captcha.convert(pic_path, pic_open)
-# print("vcode is :", vcode)
+pic_path = GraphicCode.identifyingCode(driver, 525, 391, 625, 439) # F:\PycharmProjects\Appium\Gome
+pic = pic_path + '/' + os.listdir(pic_path)[2]
+pic_open = Image.open(pic)
+
+vcode = GraphicCode.convert(pic_path, pic_open)
+print("vcode is :", vcode)
 
 # image = Image.open(os.getcwd() + '\\indent_enhance.png').convert("L")
 # Vecode.twoValue(image, 140)
@@ -86,7 +83,7 @@ else:
     print("no errors")
 
 # 进入我的 - 商城
-driver.find_elements_by_class_name("android.support.v7.app.ActionBar$Tab")[1].click()
-print(driver.contexts)
+# driver.find_elements_by_class_name("android.support.v7.app.ActionBar$Tab")[1].click()
+# print(driver.contexts)
 
 driver.quit()

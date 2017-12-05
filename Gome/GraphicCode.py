@@ -5,22 +5,22 @@ import os
 
 # 截取验证码图片
 def identifyingCode(driver, startx, starty, endx, endy):
-    driver.get_screenshot_as_file(os.getcwd() + '\\Image\\AFirst_Original.png')
-    imGetScreen = Image.open(os.getcwd() + '\\Image\\AFirst_Original.png')
+    driver.get_screenshot_as_file(os.getcwd() + '\\AFirst_Original.png')
+    imGetScreen = Image.open(os.getcwd() + '\\AFirst_Original.png')
     box = (startx, starty, endx, endy)
     imIndentigy = imGetScreen.crop(box)
-    imIndentigy.save(os.getcwd() + '\\Image\\BSecond_Screenshot.png')
+    imIndentigy.save(os.getcwd() + '\\BSecond_Screenshot.png')
 
-    sturdy = Image.open(os.getcwd() + '\\Image\\BSecond_Screenshot.png')
-    enhancer = ImageEnhance.Color(sturdy).enhance(1.5)  # 色度增强
-    enhancer = ImageEnhance.Brightness(enhancer).enhance(1.5)  # 亮度增强
-    enhancer = ImageEnhance.Contrast(enhancer).enhance(1.5)  # 对比度增强
-    sturdy = ImageEnhance.Sharpness(enhancer).enhance(3.0)  # 锐度增强
-    sturdy.save(os.getcwd() + '\\Image\\CThird_Enhance.png')
+    sturdy = Image.open(os.getcwd() + '\\BSecond_Screenshot.png')
+    enhancer = ImageEnhance.Color(sturdy).enhance(0.1)  # 色度增强
+    enhancer = ImageEnhance.Brightness(enhancer).enhance(1.1)  # 亮度增强
+    enhancer = ImageEnhance.Contrast(enhancer).enhance(1.1)  # 对比度增强
+    sturdy = ImageEnhance.Sharpness(enhancer).enhance(1.8)  # 锐度增强
+    sturdy.save(os.getcwd() + '\\CThird_Enhance.png')
 
     pic_path = os.path.dirname(os.path.abspath('CThird_Enhance.png'))
-    print(pic_path)
     return pic_path
+
 
 # 进阶，灰度处理-去噪点
 def convert(pic_path, pic_open):
@@ -28,15 +28,15 @@ def convert(pic_path, pic_open):
     # 灰度值：指黑白图像中点的颜色深度，范围一般从0到255，白色为255，黑色为0，故黑白图片也成灰度图像
     imgrey = pic_open.convert('L')
 
-    xsize, ysize = imgrey.size  # 长、宽
-    # 对照片里的所有像素点：如果像素色不是白色并且右边的一个像素点像素色是白色（RGB（255，255,255））或者像素色不是白色并且下方的一个像素点是白色的，统一变成白色
-    for i in range(ysize - 1):
-        for j in range(xsize - 1):
-            if (imgrey.getpixel((j, i)) != 255 & imgrey.getpixel((j + 1, i)) != 255):
-                imgrey.putpixel((j, i), 0)
-            if (imgrey.getpixel((j, i)) != 255 & imgrey.getpixel((j, i + 1)) != 255):
-                imgrey.putpixel((j, i), 0)
-    imgrey.save(pic_path + '\\Image\\' + 'Dfourth_Size' + '.png', 'png')
+    # xsize, ysize = imgrey.size  # 长、宽
+    # # 对照片里的所有像素点：如果像素色不是白色并且右边的一个像素点像素色是白色（RGB（255，255,255））或者像素色不是白色并且下方的一个像素点是白色的，统一变成白色
+    # for i in range(ysize - 1):
+    #     for j in range(xsize - 1):
+    #         if (imgrey.getpixel((j, i)) != 255 & imgrey.getpixel((j + 1, i)) != 255):
+    #             imgrey.putpixel((j, i), 0)
+    #         if (imgrey.getpixel((j, i)) != 255 & imgrey.getpixel((j, i + 1)) != 255):
+    #             imgrey.putpixel((j, i), 0)
+    # imgrey.save(pic_path + '\\' + 'Dfourth_Size' + '.png', 'png')
 
     # 去除图片噪点,170是经过多次调整后,去除噪点的最佳值
     '''
@@ -66,20 +66,21 @@ def convert(pic_path, pic_open):
 
     # 二值化，采用阈值分割法，threshold为分割点，使用table（是上面生成好的）生成图片
     out = imgrey.point(table, '1')
-    out.save(pic_path + '\\Image\\' + 'FFifth_Image' + '.png', 'png')
+    out.save(pic_path + '\\' + 'FFifth_Image' + '.png', 'png')
 
     # 读取处理好的图片的路径
-    imag1 = pic_path + '\\Image\\' + 'FFifth_Image' + '.png', 'png'
+    imag1 = pic_path + '\\' + 'FFifth_Image' + '.png'
     imag2 = Image.open(imag1)
 
     # 将图片中的像素点识别成字符串（图片中的像素点如果没有处理好，可能在识别过程中会有误差，如多个字符少个字符，或者识别错误等）
-    vcode = pytesseract.image_to_string(imag2).strip()
-    vcode = vcode.upper()
-    for r in rep1:
-        vcode = vcode.replace(r, rep1[r])
+    # vcode = pytesseract.image_to_string(imag2).strip()
+    # vcode = vcode.upper()
+    # for r in rep1:
+    #     vcode = vcode.replace(r, rep1[r])
 
-    # vcode = pytesseract.image_to_string(imag2)
+    vcode = pytesseract.image_to_string(imag2)
     return vcode  # 此句才是将被破解的验证码字符串返回给需要的代码的
+
 
 ''' 
 tesseract chinese.png output -l chi_sim

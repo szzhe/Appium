@@ -3,7 +3,7 @@ from appium import webdriver
 from time import sleep
 
 from Gome import swipe, GraphicCode
-from PIL import Image, ImageEnhance
+from PIL import Image
 
 apk_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))  # 获取当前项目的根路径
 # print(apk_path)
